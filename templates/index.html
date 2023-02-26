@@ -14,7 +14,28 @@
 <body>
     {% block content %}
     <h1>MBTI</h1>
- 
+   
+      <nav class="navbar navbar-expand-lg navbar-light bg-light">
+        <div class="container-fluid">
+          
+          <div class="collapse navbar-collapse" id="navbarNavAltMarkup">
+            
+            <div class="navbar-nav">
+              <a class="nav-link" href="index.html">Homepage</a>
+              <a class="nav-link" href="contact">Contact</a>
+              {%if user.is_authenticated %}
+              Hello, {{user.first_name}}
+              <a class="nav-link" href="accounts/logout">Logout</a>
+                {%else%}
+              <a class="nav-link" href="accounts/register">Register</a>
+              <a class="nav-link" href="accounts/login">Login</a>
+                {%endif%}
+              
+            </div>
+          </div>
+        </div>
+    </nav>
+
 {% endblock %}
 </body>
 </html>
