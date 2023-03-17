@@ -1,5 +1,9 @@
 from django.http import HttpResponse
-from django.shortcuts import render
+from django.shortcuts import render,redirect
+from django.db import connection
+import psycopg2
+from .models import Questions
+from django.contrib import messages
 
 # Create your views here.
 def home(request):
@@ -7,3 +11,26 @@ def home(request):
 
 def index(request):
     return render(request,"index.html");
+
+def test(request):
+
+    qu = Questions.objects.all()
+   
+    return render(request,"test.html",{'que':qu});
+
+def twitter(request):
+    return render(request,"twitter.html")
+
+def submits(request):
+    question=[]
+    for i in range(1,4):
+        q=request.GET[str(i)]
+        question.append(q)
+    s=""
+    for i in question:
+        s+=i 
+        s+="|||"
+    print(s)
+    return render(request,"test.html",{'quest':s})
+        
+        

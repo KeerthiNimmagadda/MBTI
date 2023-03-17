@@ -1,0 +1,55 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <script>
+      var s=""
+      function opt(name){
+        s.concat("|||",name)
+        console.log("Hello",s)
+      }
+     
+    </script>
+            
+</head>
+<body>
+    <h1>Welcome to the 16 personalities test!!</h1>
+    <form action="/submits" method="GET">
+      
+    {% for q in que %}
+      
+    <h3>{{q.num}} . <span id="abc"> {{q.ques}}</span></h3>
+    <div class="form-check" >
+        <input class="form-check-input" type="radio" id="{{q.num}}" value="{{q.opt1}}" name="{{q.num}}" onclick="opt(value)">
+        <label for="{{q.num}}">
+          Disagree
+          </label>
+        
+      </div>
+      <div class="form-check">
+        <input class="form-check-input" type="radio" id="{{q.num}}" value="{{q.opt2}}" name="{{q.num}}" onclick="opt(value)" >
+        <label for="{{q.num}}">
+          Neutral
+        </label>
+      </div>
+      <div class="form-check">
+        <input class="form-check-input" type="radio" id="{{q.num}}" value="{{q.opt3}}" name="{{q.num}}" onclick="opt(value)">
+        <label for="{{q.num}}">
+          Agree
+          </label>
+      </div>
+    {% endfor %}
+    
+    <input type="submit">
+    {{quest}}
+
+    </form>
+   
+    
+
+</body>
+</html>
