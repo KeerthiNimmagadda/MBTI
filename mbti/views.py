@@ -23,14 +23,18 @@ def twitter(request):
 
 def submits(request):
     question=[]
-    for i in range(1,4):
+    for i in range(1,3):
         q=request.GET[str(i)]
         question.append(q)
-    s=""
+    s=[]
     for i in question:
-        s+=i 
-        s+="|||"
+        s.append(i)
     print(s)
     return render(request,"test.html",{'quest':s})
+def tweets_pred(request):
+    handle=request.GET["handle"]
+    print(handle)
+    return render(request , "tweets_result.html")
+
         
         

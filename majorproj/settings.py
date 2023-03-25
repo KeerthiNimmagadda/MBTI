@@ -81,7 +81,8 @@ DATABASES = {
         'NAME': 'MBTI',
         'USER' : 'postgres',
         'PASSWORD' : 'mbti',
-        'HOST' : 'localhost'
+        'HOST' : 'localhost',
+        "PORT": '5433'
     }
 }
 
