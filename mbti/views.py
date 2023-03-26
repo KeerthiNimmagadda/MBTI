@@ -157,6 +157,8 @@ def test(request):
     qu = Questions.objects.all()
    
     return render(request,"test.html",{'que':qu});
+def login(request):
+    return render(request,"login.html")
 
 def twitter(request):
     return render(request,"twitter.html")
