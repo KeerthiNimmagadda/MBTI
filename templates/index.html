@@ -1,4 +1,4 @@
-
+{% load static %}
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -67,7 +67,7 @@
                     </div>
                 </div>
             </a>
-
+            {%if user.is_authenticated %}
             <a href="mbti/test" class="ways">
                 <div class="card" style="width: 12rem;">
                     <img src="https://thumbs.dreamstime.com/b/online-survey-form-online-survey-form-tablet-screen-index-finger-customer-service-feedback-concept-vector-98506218.jpg" class="card-img-top px-3" alt="survey">
@@ -76,6 +76,16 @@
                     </div>
                 </div>
             </a>
+            {%else%}
+            <a href="accounts/login" class="ways">
+              <div class="card" style="width: 12rem;">
+                  <img src="https://thumbs.dreamstime.com/b/online-survey-form-online-survey-form-tablet-screen-index-finger-customer-service-feedback-concept-vector-98506218.jpg" class="card-img-top px-3" alt="survey">
+                  <div class="card-body">
+                    <h5 class="card-text text-center pb-1">Login to take test</h5>
+                  </div>
+              </div>
+          </a>
+          {%endif%}
         </div>
 
         <div class="mt-5">
@@ -94,11 +104,11 @@
 
 
         </div>
-
+        <img src="{% static 'types2.jpeg' %}" width="100%" >
 
       </div>
 
-    
+      
 
 
 

@@ -4,7 +4,12 @@ from django.db import connection
 import psycopg2
 from .models import Questions
 from django.contrib import messages
-
+from django.http import HttpResponse
+from django.shortcuts import render,redirect
+from django.db import connection
+import psycopg2
+from .models import Questions,saveProgress
+from django.contrib import messages
 
 from django.shortcuts import render
 from django.http import HttpResponse
@@ -153,10 +158,21 @@ def index(request):
     return render(request,"index.html");
 
 def test(request):
-
+    c=request.COOKIES['username']
     qu = Questions.objects.all()
-   
-    return render(request,"test.html",{'que':qu});
+    ans= saveProgress.objects.filter(user=c).values()
+    # print(ans[0]['q1'])
+    # print(qu[0])
+    if(len(ans)==0):
+        ans=[""]*61
+    else:
+        ans=list(ans[0].values())
+        ans=ans[2:]
+    print(qu)
+    print(ans)
+    r=zip(qu,ans)
+    return render(request,"test.html",{'que':qu,'ans':ans,'r':r});
+
 def login(request):
     return render(request,"login.html")
 
@@ -165,15 +181,38 @@ def twitter(request):
 
 def submits(request):
     question=[]
-    for i in range(1,3):
-        q=request.GET[str(i)]
-        question.append(q)
-    s=[]
-    for i in question:
-        s.append(i)
-    print(s)
+    d={}
+    i=1  
+    username=''
+    while True:
+        if i==61:
+            break
+        s="q"+str(i)
+        try:
+            qt=request.GET[str(i)]
+            p=qt.split('+')
+            question.append(p[0])
+            if p[1]=='disagree':
+                d[s]='disagree'
+                username=p[2]
+            elif p[1]=='neutral':
+                d[s]='neutral'
+                username=p[2]
+            elif p[1]=='agree':
+                d[s]='agree'
+                username=p[2]  
+            
+                
+        except:
+            d[s]=''
+        i+=1
+    print(d)
+    saveProgress.objects.filter(user=username).delete()
+    w=saveProgress(user=username,q1=d['q1'],q2=d['q2'],q3=d['q3'],q4=d['q4'],q5=d['q5'],q6=d['q6'],q7=d['q7'],q8=d['q8'],q9=d['q9'],q10=d['q10'],q11=d['q11'],q12=d['q12'],q13=d['q13'],q14=d['q14'],q15=d['q15'],q16=d['q16'],q17=d['q17'],q18=d['q18'],q19=d['q19'],q20=d['q20'],q21=d['q21'],q22=d['q22'],q23=d['q23'],q24=d['q24'],q25=d['q25'],q26=d['q26'],q27=d['q27'],q28=d['q28'],q29=d['q29'],q30=d['q30'],q31=d['q31'],q32=d['q32'],q33=d['q33'],q34=d['q34'],q35=d['q35'],q36=d['q36'],q37=d['q37'],q38=d['q38'],q39=d['q39'],q40=d['q40'],q41=d['q41'],q42=d['q42'],q43=d['q43'],q44=d['q44'],q45=d['q45'],q46=d['q46'],q47=d['q47'],q48=d['q48'],q49=d['q49'],q50=d['q50'],q51=d['q51'],q52=d['q52'],q53=d['q53'],q54=d['q54'],q55=d['q55'],q56=d['q56'],q57=d['q57'],q58=d['q58'],q59=d['q59'],q60=d['q60'])
+    w.save()
     #tweetList=request.GET["para"]
-    tweetList=s
+    print(question)
+    tweetList=question
     #print(tweetList)
     if tweetList :
         with open('C:/Users/harsha vardhan/Documents/twitter/notebooks/newfrequency300.csv','rt') as f:
