@@ -56,3 +56,4 @@ def logout(request):
     return redirect("/")
 def index(request):
     return redirect("/")
+

@@ -8,7 +8,9 @@ urlpatterns = [
     path("tweets",views.tweets_pred),
     path('twitter',views.twitter),
     path('submits',views.submits),
-    path('login',views.login)
+    path('login',views.login),
+    path('profile',views.profile),
+    path('res',views.result),
 ]
 
 

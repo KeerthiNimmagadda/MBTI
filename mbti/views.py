@@ -2,6 +2,7 @@ from django.http import HttpResponse
 from django.shortcuts import render,redirect
 from django.db import connection
 import psycopg2
+from django.contrib.auth.models import User,auth
 from .models import Questions
 from django.contrib import messages
 from django.http import HttpResponse
@@ -10,7 +11,7 @@ from django.db import connection
 import psycopg2
 from .models import Questions,saveProgress
 from django.contrib import messages
-
+from django.http import HttpResponse,HttpResponseRedirect
 from django.shortcuts import render
 from django.http import HttpResponse
 from joblib import load
@@ -179,6 +180,53 @@ def login(request):
 def twitter(request):
     return render(request,"twitter.html")
 
+def profile(request):
+    response=HttpResponseRedirect('/')
+    c=request.COOKIES['username']
+    details=User.objects.filter(username=c).values()
+    l=list(details[0].values())
+    print(l[5])
+    progress=saveProgress.objects.filter(user=c).values()
+    mbti=list(progress[0].values())
+    mbti_type=mbti[-1]
+    print(mbti_type)
+    return render(request,'profile.html',{"user":l[5],"mbti":mbti_type})
+
+def result(request):
+        mbti=request.GET["mbti"]
+        if mbti=="ESTJ":
+            return render(request,"estj.html")
+        elif mbti=="ESFJ":
+            return render(request,"esfj.html")
+        elif mbti=="ESFP":
+            return render(request,"esfp.html")
+        elif mbti=="ESTP":
+            return render(request,"estp.html")
+        elif mbti=="ENTJ":
+            return render(request,"entj.html")
+        elif mbti=="ENTP":
+            return render(request,"entp.html")
+        elif mbti=="ENFJ":
+            return render(request,"enfj.html")
+        elif mbti=="ENFP":
+            return render(request,"enfp.html")
+        elif mbti=="INTJ":
+            return render(request,"intj.html")
+        elif mbti=="INTP":
+            return render(request,"intp.html")
+        elif mbti=="INFJ":
+            return render(request,"infj.html")
+        elif mbti=="INFP":
+            return render(request,"infp.html")
+        elif mbti=="ISTJ":
+            return render(request,"istj.html")
+        elif mbti=="ISTP":
+            return render(request,"istp.html")
+        elif mbti=="ISFJ":
+            return render(request,"isfj.html")
+        elif mbti=="ISFP":
+            return render(request,"isfp.html")
+        return render(request,"test_result.html",{'mbti':mbti})
 def submits(request):
     question=[]
     d={}
@@ -208,8 +256,6 @@ def submits(request):
         i+=1
     print(d)
     saveProgress.objects.filter(user=username).delete()
-    w=saveProgress(user=username,q1=d['q1'],q2=d['q2'],q3=d['q3'],q4=d['q4'],q5=d['q5'],q6=d['q6'],q7=d['q7'],q8=d['q8'],q9=d['q9'],q10=d['q10'],q11=d['q11'],q12=d['q12'],q13=d['q13'],q14=d['q14'],q15=d['q15'],q16=d['q16'],q17=d['q17'],q18=d['q18'],q19=d['q19'],q20=d['q20'],q21=d['q21'],q22=d['q22'],q23=d['q23'],q24=d['q24'],q25=d['q25'],q26=d['q26'],q27=d['q27'],q28=d['q28'],q29=d['q29'],q30=d['q30'],q31=d['q31'],q32=d['q32'],q33=d['q33'],q34=d['q34'],q35=d['q35'],q36=d['q36'],q37=d['q37'],q38=d['q38'],q39=d['q39'],q40=d['q40'],q41=d['q41'],q42=d['q42'],q43=d['q43'],q44=d['q44'],q45=d['q45'],q46=d['q46'],q47=d['q47'],q48=d['q48'],q49=d['q49'],q50=d['q50'],q51=d['q51'],q52=d['q52'],q53=d['q53'],q54=d['q54'],q55=d['q55'],q56=d['q56'],q57=d['q57'],q58=d['q58'],q59=d['q59'],q60=d['q60'])
-    w.save()
     #tweetList=request.GET["para"]
     print(question)
     tweetList=question
@@ -259,6 +305,40 @@ def submits(request):
             answer.append("J")
         mbti="".join(answer)
         print(mbti)
+        w=saveProgress(user=username,q1=d['q1'],q2=d['q2'],q3=d['q3'],q4=d['q4'],q5=d['q5'],q6=d['q6'],q7=d['q7'],q8=d['q8'],q9=d['q9'],q10=d['q10'],q11=d['q11'],q12=d['q12'],q13=d['q13'],q14=d['q14'],q15=d['q15'],q16=d['q16'],q17=d['q17'],q18=d['q18'],q19=d['q19'],q20=d['q20'],q21=d['q21'],q22=d['q22'],q23=d['q23'],q24=d['q24'],q25=d['q25'],q26=d['q26'],q27=d['q27'],q28=d['q28'],q29=d['q29'],q30=d['q30'],q31=d['q31'],q32=d['q32'],q33=d['q33'],q34=d['q34'],q35=d['q35'],q36=d['q36'],q37=d['q37'],q38=d['q38'],q39=d['q39'],q40=d['q40'],q41=d['q41'],q42=d['q42'],q43=d['q43'],q44=d['q44'],q45=d['q45'],q46=d['q46'],q47=d['q47'],q48=d['q48'],q49=d['q49'],q50=d['q50'],q51=d['q51'],q52=d['q52'],q53=d['q53'],q54=d['q54'],q55=d['q55'],q56=d['q56'],q57=d['q57'],q58=d['q58'],q59=d['q59'],q60=d['q60'],mtype=mbti)
+        w.save()
+        if mbti=="ESTJ":
+            return render(request,"estj.html")
+        elif mbti=="ESFJ":
+            return render(request,"esfj.html")
+        elif mbti=="ESFP":
+            return render(request,"esfp.html")
+        elif mbti=="ESTP":
+            return render(request,"estp.html")
+        elif mbti=="ENTJ":
+            return render(request,"entj.html")
+        elif mbti=="ENTP":
+            return render(request,"entp.html")
+        elif mbti=="ENFJ":
+            return render(request,"enfj.html")
+        elif mbti=="ENFP":
+            return render(request,"enfp.html")
+        elif mbti=="INTJ":
+            return render(request,"intj.html")
+        elif mbti=="INTP":
+            return render(request,"intp.html")
+        elif mbti=="INFJ":
+            return render(request,"infj.html")
+        elif mbti=="INFP":
+            return render(request,"infp.html")
+        elif mbti=="ISTJ":
+            return render(request,"istj.html")
+        elif mbti=="ISTP":
+            return render(request,"istp.html")
+        elif mbti=="ISFJ":
+            return render(request,"isfj.html")
+        elif mbti=="ISFP":
+            return render(request,"isfp.html")
         return render(request,"test_result.html",{'mbti':mbti})
 def tweets_pred(request):
     username=request.GET["handle"]
@@ -323,7 +403,38 @@ def tweets_pred(request):
     else:
         mbti="no acc"
         print("no acc")
+    if mbti=="ESTJ":
+        return render(request,"estj.html")
+    elif mbti=="ESFJ":
+        return render(request,"esfj.html")
+    elif mbti=="ESFP":
+        return render(request,"esfp.html")
+    elif mbti=="ESTP":
+        return render(request,"estp.html")
+    elif mbti=="ENTJ":
+        return render(request,"entj.html")
+    elif mbti=="ENTP":
+        return render(request,"entp.html")
+    elif mbti=="ENFJ":
+        return render(request,"enfj.html")
+    elif mbti=="ENFP":
+        return render(request,"enfp.html")
+    elif mbti=="INTJ":
+        return render(request,"intj.html")
+    elif mbti=="INTP":
+        return render(request,"intp.html")
+    elif mbti=="INFJ":
+        return render(request,"infj.html")
+    elif mbti=="INFP":
+        return render(request,"infp.html")
+    elif mbti=="ISTJ":
+        return render(request,"istj.html")
+    elif mbti=="ISTP":
+        return render(request,"istp.html")
+    elif mbti=="ISFJ":
+        return render(request,"isfj.html")
+    elif mbti=="ISFP":
+        return render(request,"isfp.html")
     return render(request , "tweets_result.html" , {"mbti":mbti})
 
-        
         

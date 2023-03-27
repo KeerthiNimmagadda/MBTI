@@ -1,0 +1,101 @@
+
+body {
+    overflow-x:hidden;
+  }
+.div1{
+   margin: 0;
+   padding: 20px;
+   background:#88619a;
+   width:1500px;
+   height: 390px;
+   margin-right: 80px;
+   border-radius: 13em/3em;
+   
+}
+.div1 h1{
+   text-align: center;
+   color: white;
+   font-weight: bold;
+   font-family:  Montserrat,"Helvetica Neue",Arial,sans-serif;
+   font-size: 55px ;
+}
+.div1 h2{
+   text-align: center;
+   font-family:  Montserrat,"Helvetica Neue",Arial,sans-serif;
+   font-size: 65px;
+   color:#513A5C;
+}
+.div1 p{
+   text-align: center;
+   font-family:  Montserrat,"Helvetica Neue",Arial,sans-serif;
+   color:#a9a4ab;
+   font-size: 20px;
+   margin-top:-10px ;
+   font-weight:700;
+   
+}
+.intro{
+   font-family:  Montserrat,"Helvetica Neue",Arial,sans-serif;
+   color: #51596A;
+   font-weight: bold;
+}
+.title{
+    border-bottom: 1px solid #696f80;
+    margin-top: 30px;
+    font-weight: bold;
+    color: #51596A;
+}
+dfn{
+    font-weight: bold;
+    color: #51596A;
+}
+.link--inline{
+    text-decoration: none;
+
+}
+.bq{
+   border-left: 3px solid #33a474;
+   font-style: italic;
+   margin-bottom: 15px!important;
+   padding-left: 30px;
+   font-size: 23px;
+   color: rgb(176, 168, 168);
+   margin-top:30px;
+   
+}
+footer{
+    font-family:  Montserrat,"Helvetica Neue",Arial,sans-serif;
+    color: rgb(176, 168, 168);
+
+}
+.bq1{
+   margin-top: 35px;
+   line-height: 2;
+   font-size: 21px;
+   color: #51596A;
+   font-family:Montserrat,"Helvetica Neue",Arial,sans-serif ;
+}
+.card{
+    border-radius: 4px;
+    background: #fff;
+    box-shadow: 0 6px 10px rgba(0,0,0,.08), 0 0 6px rgba(0,0,0,.05);
+      transition: .3s transform cubic-bezier(.155,1.105,.295,1.12),.3s box-shadow,.3s -webkit-transform cubic-bezier(.155,1.105,.295,1.12);
+  padding: 14px 80px 18px 36px;
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+
+
+}
+
+.card:hover{
+     transform: scale(1.05);
+    box-shadow: 0 10px 20px rgba(0,0,0,.12), 0 4px 8px rgba(0,0,0,.06);
+}
+.text{
+    font-family:Montserrat,"Helvetica Neue",Arial,sans-serif ;
+    color: #88619a;
+    font-style: italic;
+    padding-left: 70px;
+
+}
