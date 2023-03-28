@@ -70,4 +70,5 @@ class saveProgress(models.Model):
     q58 = models.CharField(max_length=140, null=True)
     q59 = models.CharField(max_length=140, null=True)
     q60 = models.CharField(max_length=140, null=True)
+    mtype=models.CharField(max_length=140, null=True)
     
