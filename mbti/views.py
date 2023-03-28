@@ -187,6 +187,9 @@ def profile(request):
     l=list(details[0].values())
     print(l[5])
     progress=saveProgress.objects.filter(user=c).values()
+    print("progress=",progress)
+    if not progress :
+        return render(request,'no_test.html',{"user":l[5]})
     mbti=list(progress[0].values())
     mbti_type=mbti[-1]
     print(mbti_type)
