@@ -1,3 +1,4 @@
+{% include 'base.html' %}
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -12,6 +13,8 @@
         s.concat("|||",name)
         console.log("Hello",s)
       }
+
+     
      
     </script>
     <style>
@@ -54,33 +57,24 @@
     box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 #00acee;
     }
     </style>
+
             
 </head>
 <body>
-  <nav class="navbar navbar-expand-sm navbar-dark bg-dark py-3 px-2 fs-5">
-    <div class="container-fluid">
-      <a class="navbar-brand navtext" href="/">Home</a>
-      <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
-        <span class="navbar-toggler-icon"></span>
-      </button>
-      <div class="d-flex justify-content-sm-end collapse navbar-collapse " id="navbarNav">
-        <ul class="navbar-nav">
-          <li class="nav-item">
-            <a class="nav-link active navtext" aria-current="page" href="profile">Profile</a>
-          </li>
-          <li class="nav-item me-2">
-            {%if user.is_authenticated %}
-            <a class="nav-link" href="/accounts/logout">Logout</a>
-            {%else%}
-            <!--<a class="nav-link" href="accounts/register">Register</a>-->
-            <a class="nav-link" href="/accounts/login">Login</a>
-            {%endif%}
-          </li>              
-        </ul>
-      </div>
-    </div>
-  </nav>
+  
+
     
+
+{% if messages %}
+{% for message in messages %}
+<h3 class="text-center my-5" {% if message.tags %} class="{{ message.tags }}"{% endif %} style="color: red;">!!!   {{ message }}   !!!!</h3>
+{% endfor %}
+
+{% else %}
+<h4 class="mt-4 text-center"><img src="https://cdn-icons-png.flaticon.com/512/25/25628.png" alt="" width="22px"> The more questions you answer, the accurate your result will be!</h4>
+
+{% endif %}
+
     <form action="submits" method="GET">
       
       {% for q,i in r %}
@@ -145,8 +139,10 @@
     </div>
   </div>
     {% endfor %}
-  
-    <input type="submit" class="btn btn-dark ms-4 px-5 my-5">
+
+      <input type="submit" class="btn btn-dark ms-4 px-5 my-5">
+      
+    
 
     </form>
 

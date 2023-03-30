@@ -1,3 +1,4 @@
+from django.contrib import messages
 from django.http import HttpResponse
 from django.shortcuts import render,redirect
 from django.db import connection
@@ -38,14 +39,73 @@ import nltk
 nltk.download('stopwords')
 import nltk
 nltk.download('punkt')
+from django.shortcuts import render,redirect
+from django.contrib import messages
+from django.contrib.auth.models import User,auth
+from django.http import HttpResponse,HttpResponseRedirect
+# Create your views here.
+
+def login( request):
+    response=HttpResponseRedirect('/')
+    if request.method=='POST':
+        username=request.POST['username']
+        password=request.POST['password']
+        user=auth.authenticate(username=username,password=password)
+        if user is not None:
+            auth.login(request,user)
+            response.set_cookie('username',username)
+            return response
+        else:
+            messages.info(request,'invalid credentials')
+            return redirect('login')
+    else:
+        return render(request,'login.html')
+    
+
+def register(request):
+    if request.method=='POST':
+        first_name=request.POST['first_name']
+        #last_name=request.POST['last_name']
+        username=request.POST['username']
+        password1=request.POST['password1']
+        password2=request.POST['password2']
+        #email=request.POST['email']
+        email=""
+        last_name=""
+
+        if password1==password2:
+            if User.objects.filter(username=username).exists():
+                messages.info(request,"username taken")
+                return redirect('register')
+            #elif User.objects.filter(email=email).exists():
+                #messages.info(request,"email taken")
+                #return redirect('register')
+            else:
+                user=User.objects.create_user(username=username,password=password1,email=email,first_name=first_name,last_name=last_name)
+                user.save()
+                print('user created')
+                return redirect('login')
+        else:
+            messages.info(request,'password not matching')
+            return redirect('register')
+        return redirect('/')
+    else:
+        return render(request,'register.html')
+    
+def logout(request):
+    auth.logout(request)
+    return redirect("/")
+def index(request):
+    return redirect("/")
+
 
 ckey='0Cbg4uKTCBH5A04LeGotP5LF4'
 csecret='oVPvWBlYNNcAA2vp0eUyD8TQd3Q2M8WaXNRxk95l7VzF69w3cm'
 atoken='1314547746263625728-Elb9YP5kFu2K5RKva9FmkD13mZ9ioj'
 asecret='A9NrSTJ934NhXOXxkYGYBPLc1CBRSifo9wCqjvvfBtgMc'
-auth=tweepy.OAuthHandler(ckey, csecret)
-auth.set_access_token(atoken, asecret)
-api=tweepy.API(auth)
+auth1=tweepy.OAuthHandler(ckey, csecret)
+auth1.set_access_token(atoken, asecret)
+api=tweepy.API(auth1)
 
 
 emoticons_str = r"""
@@ -174,14 +234,12 @@ def test(request):
     r=zip(qu,ans)
     return render(request,"test.html",{'que':qu,'ans':ans,'r':r});
 
-def login(request):
-    return render(request,"login.html")
+
 
 def twitter(request):
     return render(request,"twitter.html")
 
 def profile(request):
-    response=HttpResponseRedirect('/')
     c=request.COOKIES['username']
     details=User.objects.filter(username=c).values()
     l=list(details[0].values())
@@ -189,11 +247,11 @@ def profile(request):
     progress=saveProgress.objects.filter(user=c).values()
     print("progress=",progress)
     if not progress :
-        return render(request,'no_test.html',{"user":l[5]})
+        return render(request,'no_test.html',{"username":l[5]})
     mbti=list(progress[0].values())
     mbti_type=mbti[-1]
     print(mbti_type)
-    return render(request,'profile.html',{"user":l[5],"mbti":mbti_type})
+    return render(request,'profile.html',{"username":l[5],"mbti":mbti_type})
 
 def result(request):
         mbti=request.GET["mbti"]
@@ -257,14 +315,21 @@ def submits(request):
         except:
             d[s]=''
         i+=1
+    d2={'q1': '', 'q2': '', 'q3': '', 'q4': '', 'q5': '', 'q6': '', 'q7': '', 'q8': '', 'q9': '', 'q10': '', 'q11': '', 'q12': '', 'q13': '', 'q14': '', 'q15': '', 'q16': '', 'q17': '', 'q18': '', 'q19': '', 'q20': '', 'q21': '', 'q22': '', 'q23': '', 'q24': '', 'q25': '', 'q26': '', 'q27': '', 'q28': '', 'q29': '', 'q30': '', 'q31': '', 'q32': '', 'q33': '', 'q34': '', 'q35': '', 'q36': '', 'q37': '', 'q38': '', 'q39': '', 'q40': '', 'q41': '', 'q42': '', 'q43': '', 'q44': '', 'q45': '', 'q46': '', 'q47': '', 'q48': '', 'q49': '', 'q50': '', 'q51': '', 'q52': '', 'q53': '', 'q54': '', 'q55': '', 'q56': '', 'q57': '', 'q58': '', 'q59': '', 'q60': ''}
+    if d== d2:
+        CRITICAL = 50
+        messages.add_message(request, CRITICAL, 'PLEASE ANSWER ATLEAST ONE QUESTION')
+        response=HttpResponseRedirect('/test')
+        return response
     print(d)
+    
     saveProgress.objects.filter(user=username).delete()
     #tweetList=request.GET["para"]
     print(question)
     tweetList=question
     #print(tweetList)
     if tweetList :
-        with open('C:/Users/harsha vardhan/Documents/twitter/notebooks/newfrequency300.csv','rt') as f:
+        with open('notebooks/newfrequency300.csv','rt') as f:
             csvReader=csv.reader(f)
             mydict={rows[1]: int(rows[0]) for rows in csvReader}
         vectorizer=TfidfVectorizer(vocabulary=mydict,min_df=1)
@@ -355,7 +420,7 @@ def tweets_pred(request):
             #tweetList=['I prefer to completely finish one project before starting another','I like to use organizing tools like schedules and lists','Even a small mistake can cause me to doubt your overall abilities and knowledge','I feel comfortable just walking up to someone I find interesting and striking up a conversation','i are not too interested in discussing various interpretations and analyses of creative works','I am more inclined to follow my head than my heart','i usually prefer just doing what i feel like at any given moment instead of planning a particular daily routine','i rarely worry about whether i make a good impression on people i meet','i enjoy participating in group activities','i like books and movies that make i come up with my own interpretation of the ending','my happiness does not comes more from helping others accomplish things than my own accomplishments','i enjoy watching people argue i tend to avoid drawing attention to yourself my mood can change very quickly','I often make new friends','I dont waste my time learning about random topics','I am very sentimental','I like to use organizing tools like schedules and lists.','Being around lots of people energizes me.','I am always the leader wherever I go','I enjoy watching people argue']
             #print(tweetList)
         if tweetList :
-            with open('C:/Users/harsha vardhan/Documents/twitter/notebooks/newfrequency300.csv','rt') as f:
+            with open('notebooks/newfrequency300.csv','rt') as f:
                 csvReader=csv.reader(f)
                 mydict={rows[1]: int(rows[0]) for rows in csvReader}
 
