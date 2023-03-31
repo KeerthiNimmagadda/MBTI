@@ -1,4 +1,5 @@
 {% include 'base.html' %}
+{% load static %}
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -13,29 +14,36 @@
         box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
       }
       .btn:hover{
-    color: black;
-    background-color: #00acee;
+
+    background-color: darkcyan;
     border: none;
     transform: scale(1.1);
-    box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 #00acee;
+    box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 darkcyan;
     }
+    body{
+        background-image: url("{% static 'profile2.png' %}");
+      background-repeat: no-repeat;
+      background-attachment: fixed;
+      background-size: 100% 100%;
+      }
     </style>
 </head>
 <body>
     
 
     <div class="container mt-5 ">
-    <h1 class="text-center pb-5"> Welcome {{username}} ,</h1>
+    <h1 class="text-center pb-5"> Welcome {{username}} </h1>
     
         {% if mbti == None %}
             <br><h4 class="my-5 pb-5">You haven't taken the personality test yet. Once you take the survey, you resultant personality type will be shown here.</h4>
         {% else %}
-            <h5 class="pt-3 pb-5"> Your MBTI personality type is {{mbti}} </h5>
-            <h5 class="pb-5">Click on the button below to view your detailed result</h5>
+            <h5 class="pt-3 pb-4"> Your MBTI personality type is <b>{{mbti}} </b></h5>
+            <h5 class="pb-4">Click on the button below to view your detailed result</h5>
             <form action="res">
                 <input type="submit" value={{mbti}} name="mbti" class="btn btn-dark px-5 py-2">
             </form>
             
+         
         {% endif %}
     </div>
     

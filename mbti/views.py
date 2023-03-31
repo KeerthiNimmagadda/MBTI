@@ -250,8 +250,9 @@ def profile(request):
         return render(request,'no_test.html',{"username":l[5]})
     mbti=list(progress[0].values())
     mbti_type=mbti[-1]
+    mbti_lower=mbti_type.lower()
     print(mbti_type)
-    return render(request,'profile.html',{"username":l[5],"mbti":mbti_type})
+    return render(request,'profile.html',{"username":l[5],"mbti":mbti_type,"mbti_lower":mbti_lower})
 
 def result(request):
         mbti=request.GET["mbti"]
@@ -469,7 +470,7 @@ def tweets_pred(request):
             mbti="\nAccount is either private or No tweets posted!"
             print("\nAccount is either private or No tweets posted!")
     else:
-        mbti="no acc"
+        mbti="Account doesn't exist !!"
         print("no acc")
     if mbti=="ESTJ":
         return render(request,"estj.html")
