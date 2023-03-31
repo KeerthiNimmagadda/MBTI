@@ -13,6 +13,8 @@
         s.concat("|||",name)
         console.log("Hello",s)
       }
+
+     
      
     </script>
     <style>
@@ -55,11 +57,23 @@
     box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 #00acee;
     }
     </style>
+
             
 </head>
 <body>
   
     
+
+{% if messages %}
+{% for message in messages %}
+<h3 class="text-center my-5" {% if message.tags %} class="{{ message.tags }}"{% endif %} style="color: red;">!!!   {{ message }}   !!!!</h3>
+{% endfor %}
+
+{% else %}
+<h4 class="mt-4 text-center"><img src="https://cdn-icons-png.flaticon.com/512/25/25628.png" alt="" width="22px"> The more questions you answer, the accurate your result will be!</h4>
+
+{% endif %}
+
     <form action="submits" method="GET">
       
       {% for q,i in r %}
@@ -124,8 +138,10 @@
     </div>
   </div>
     {% endfor %}
-  
-    <input type="submit" class="btn btn-dark ms-4 px-5 my-5">
+
+      <input type="submit" class="btn btn-dark ms-4 px-5 my-5">
+      
+    
 
     </form>
 
