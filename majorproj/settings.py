@@ -78,11 +78,11 @@ WSGI_APPLICATION = 'majorproj.wsgi.application'
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql',
-        'NAME': 'MBTI_Latest',
+        'NAME': 'MBTI',
         'USER' : 'postgres',
         'PASSWORD' : 'mbti',
         'HOST' : 'localhost',
-        "PORT": '5432'
+        "PORT": '5433'
     }
 }
 

@@ -151,21 +151,14 @@ def preprocess(s, lowercase=False):
     return tokens
 
 def preproc(s):
-	#s=emoji_pattern.sub(r'', s) # no emoji
 	s= unidecode(s)
 	POSTagger=preprocess(s)
-	#print(POSTagger)
-
 	tweet=' '.join(POSTagger)
 	stop_words = set(stopwords.words('english'))
-	#word_tokens = word_tokenize(tweet)
-	#filtered_sentence = [w for w in word_tokens if not w in stop_words]
 	filtered_sentence = []
 	for w in POSTagger:
 	    if w not in stop_words:
 	        filtered_sentence.append(w)
-	#print(word_tokens)
-	#print(filtered_sentence)
 	stemmed_sentence=[]
 	stemmer2 = SnowballStemmer("english", ignore_stopwords=True)
 	for w in filtered_sentence:
